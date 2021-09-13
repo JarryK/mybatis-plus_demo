@@ -1,4 +1,4 @@
-# synthesize
+# mybatis-plus_demo
 ## 一个简单的springboot + mybatis-plus自动生成CRUD代码学习demo
 ### 使用方法
 #### 1、更改文件application-dev.yml 配置为你的数据库配置
