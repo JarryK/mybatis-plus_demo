@@ -32,6 +32,11 @@ import java.util.Scanner;
 @Slf4j
 public class CodeGenerator {
 
+    private final static String DATABASE_URL = "jdbc:mysql://localhost:3306/synthesize?useUnicode=true&useSSL=false&characterEncoding=utf8";
+    private final static String USERNAME = "root";
+    private final static String PASSWORD = "root";
+    private final static String DRIVER_NAME = "com.mysql.jdbc.Driver";
+
     /**
      * <p>
      * 读取控制台内容
@@ -39,9 +44,7 @@ public class CodeGenerator {
      */
     public static String scanner(String tip) {
         Scanner scanner = new Scanner(System.in);
-        StringBuilder help = new StringBuilder();
-        help.append("请输入" + tip + "：");
-        System.out.println(help.toString());
+        System.out.println("请输入" + tip + "：");
         if (scanner.hasNext()) {
             String ipt = scanner.next();
             if (Validator.isNotEmpty(ipt)) {
@@ -80,11 +83,11 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/synthesize?useUnicode=true&useSSL=false&characterEncoding=utf8");
+        dsc.setUrl(DATABASE_URL);
         // dsc.setSchemaName("public");
-        dsc.setDriverName("com.mysql.jdbc.Driver");
-        dsc.setUsername("root");
-        dsc.setPassword("root");
+        dsc.setDriverName(DRIVER_NAME);
+        dsc.setUsername(USERNAME);
+        dsc.setPassword(PASSWORD);
         mpg.setDataSource(dsc);
 
         // 包配置
