@@ -24,10 +24,18 @@
 
     <!-- 插入 -->
     <insert id="insert">
-        INSERT INTO ${table.name} (${table.fieldNames})
+        INSERT INTO ${table.name} (
+        <#list table.fields as field>
+        <if test="${field.propertyName} != null <#if field.propertyType == "String"> and ${field.propertyName} != ''</#if>">
+            <#if field_index != 0>,</#if>${field.name}
+        </if>
+        </#list>
+        )
         VALUES (
         <#list table.fields as field>
-            <#if field_index != 0>,</#if><#noparse>#{</#noparse>${field.propertyName}<#noparse>}</#noparse>
+        <if test="${field.propertyName} != null <#if field.propertyType == "String"> and ${field.propertyName} != ''</#if>">
+            <#if field_index != 0>,</#if><#noparse>#{</#noparse>${field.propertyName}, jdbcType=<#if field.propertyType == "LocalDateTime">TIMESTAMP<#elseif field.propertyType == "Integer">NUMERIC<#else>VARCHAR</#if><#noparse>}</#noparse>
+        </if>
         </#list>
         )
     </insert>
@@ -36,8 +44,8 @@
     <update id="updateById">
         UPDATE ${table.name} a
         SET <#list table.fields as field>
-            <if test="${field.propertyName} != null and ${field.propertyName} != ''">
-                <#if field_index != 0>,</#if>a.${field.name}= <#noparse>#{</#noparse>${field.propertyName}<#noparse>}</#noparse>
+            <if test="${field.propertyName} != null <#if field.propertyType == "String"> and ${field.propertyName} != ''</#if>">
+                <#if field_index != 0>,</#if><#noparse>#{</#noparse>${field.propertyName}, jdbcType=<#if field.propertyType == "LocalDateTime">TIMESTAMP<#elseif field.propertyType == "Integer">NUMERIC<#else>VARCHAR</#if><#noparse>}</#noparse>
             </if>
         </#list>
         WHERE id =  <#noparse>#{id}</#noparse>
