@@ -37,6 +37,12 @@ public class CodeGenerator {
     private final static String PASSWORD = "root";
     private final static String DRIVER_NAME = "com.mysql.jdbc.Driver";
 
+
+    /**
+     * 表名称，以,做分割
+      */
+    private final static String TABLE_NAME = "VIEW_RECORD";
+
     /**
      * <p>
      * 读取控制台内容
@@ -147,9 +153,10 @@ public class CodeGenerator {
          templateConfig.setEntity("ftl/mybatis-plus/genEntity");
         // templateConfig.setService();
         // templateConfig.setController();
+        templateConfig.setXml("ftl/mybatis-plus/mapper.xml");
 
         // 需要关闭自动生成的文件类型
-        templateConfig.setXml(null);
+//        templateConfig.setXml(null);
         templateConfig.setController(null);
         mpg.setTemplate(templateConfig);
 
@@ -164,7 +171,7 @@ public class CodeGenerator {
 //        strategy.setSuperControllerClass("你自己的父类控制器,没有就不用设置!");
         // 写于父类中的公共字段
         //strategy.setSuperEntityColumns("id");
-        strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
+        strategy.setInclude(TABLE_NAME.split(","));
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");
         mpg.setStrategy(strategy);
